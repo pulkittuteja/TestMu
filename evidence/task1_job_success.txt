@@ -1,0 +1,11 @@
+# Task 1 - Job A: corrected YAML ran successfully (4/4 tasks passed)
+# Job Link: https://hyperexecute.lambdatest.com/hyperexecute/task?jobId=af9a1118-dc04-44ed-aec0-817cc63314d6
+
+Job af9a1118-dc04-44ed-aec0-817cc63314d6 has INITIATED
+    Test Execution Time:                  2m22s
+    Job Duration Time:                    4m37s
+    Total Tasks:                          4
+    Pass discovery stage percentage:      100.00%
+    Pass pre stage percentage:            100.00%
+    Pass test stage percentage:           100.00%
+    Failed Tasks:                         0

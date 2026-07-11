@@ -1,0 +1,2 @@
+# Task 2 - env var read INSIDE the test (Job A, Test_1 scenario log):
+ENVIRONMENT (during test execution) => staging

@@ -1,0 +1,22 @@
+# Task 3 - forced failure retried automatically (retryOnFailure: true, maxRetries: 2)
+# Job Link: https://hyperexecute.lambdatest.com/hyperexecute/task?jobId=4233bbd0-78fb-4e3d-9c32-a0cb0a5f989b
+# Scenario logs produced (1 initial attempt + 2 retries):
+#   -Test_5-
+#   -Test_5--retry-1
+#   -Test_5--retry-2
+
+----- attempt: -Test_5- -----
+Test5.intentionalFailure - this assertion will fail on purpose
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.227 s <<< FAILURE! -- in TestSuite
+java.lang.AssertionError: Intentional hard assertion failure to demonstrate HyperExecute retryOnFailure
+
+----- attempt: -Test_5--retry-1 -----
+Test5.intentionalFailure - this assertion will fail on purpose
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.937 s <<< FAILURE! -- in TestSuite
+java.lang.AssertionError: Intentional hard assertion failure to demonstrate HyperExecute retryOnFailure
+
+----- attempt: -Test_5--retry-2 -----
+Test5.intentionalFailure - this assertion will fail on purpose
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.958 s <<< FAILURE! -- in TestSuite
+java.lang.AssertionError: Intentional hard assertion failure to demonstrate HyperExecute retryOnFailure
+

@@ -1,0 +1,6 @@
+# Task 2 - env var printed in PRE-STEPS (Job B2 7a076f79-52fc-43a4-af6a-8119b2ad7efe pre stage log)
+# Job Link: https://hyperexecute.lambdatest.com/hyperexecute/task?jobId=7a076f79-52fc-43a4-af6a-8119b2ad7efe
+
+******************* echo "===== ENVIRONMENT value in pre-steps below =====" *******************
+ENVIRONMENT=staging
+\"===== ENVIRONMENT value in pre-steps below =====\"
