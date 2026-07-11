@@ -1,0 +1,9 @@
+<!-- TASK 3 - add this <test> block inside xml/testng_win.xml, just before </suite>.
+     This makes autosplit discovery emit "Test_5" as its own test entity/task,
+     so HyperExecute runs it (and retries it on failure) independently. -->
+
+	<test name="Test_5">
+			<classes>
+				<class name="Test5" />
+			</classes>
+	</test>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Task 3 - isolated suite used for the retry demo (copy to xml/testng_retry.xml).
+     Running with -Dplatname=retry makes the pom pick xml/testng_${platname}.xml = this file,
+     so ONLY Test_5 runs (fast, no Selenium) and its failure/retries are unambiguous.
+
+     Alternative: instead of an isolated suite, add the <test name="Test_5"> block below into
+     the existing xml/testng_win.xml so Test_5 is discovered alongside Test_1..Test_4. -->
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Windows: Retry demo" thread-count="1" parallel="methods">
+	<test name="Test_5">
+			<classes>
+				<class name="Test5" />
+			</classes>
+	</test>
+</suite>
