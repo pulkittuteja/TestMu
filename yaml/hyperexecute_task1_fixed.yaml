@@ -1,0 +1,51 @@
+---
+# Task 1 - corrected HyperExecute YAML for the testng-selenium-hyperexecute-sample (Windows).
+# Compared against the repo's own working baseline: yaml/win/v1/testng_hyperexecute_autosplit_sample.yaml
+
+version: 0.1
+runson: win
+
+autosplit: true
+# FIX (bug 1): key casing. HyperExecute expects `concurrency`; `conCurrency` is
+# an unknown key and gets silently ignored, so concurrency is never applied.
+concurrency: 4
+
+# RESTORED: the gist dropped the runtime block. Declaring it makes Java 11 explicit
+# on the runner image (the working sample ships this).
+runtime:
+  language: java
+  version: 11
+
+# RESTORED: dependency caching between runs (present in the working sample).
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+
+# FIX (bug 2): `env` must be a block mapping. The gist wrote `env: TOKEN: <val>` on
+# one line, which is invalid YAML ("mapping values are not allowed here") and stops
+# the whole file from parsing.
+env:
+  TOKEN: anvdegtod-asdaasda0asda-asda
+
+pre:
+  # RESTORED: -Dmaven.repo.local=./.m2 so pre-resolved deps land in the cached repo.
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+
+testDiscovery:
+  type: raw
+  mode: dynamic
+  # Unchanged from the working sample: emits Test_1..Test_4, one entity per line.
+  # (grep/awk/sed are just executables on the Windows runner's PATH.)
+  command: grep 'test name' xml/testng_win.xml | awk '{print$2}' | sed 's/name=//g' | sed 's/\x3e//g'
+
+# Unchanged from the working sample. The backticks are PowerShell escapes (the win
+# runner uses PowerShell) and `$test` is a HyperExecute placeholder, not a shell var
+# - so this line is NOT a bug, despite looking odd.
+testRunnerCommand: mvn test `-Dplatname=win `-Dmaven.repo.local=./.m2 dependency:resolve `-DselectedTests=$test
+
+# FIX (bug 3): the gist indented this key by one space, which is invalid indentation
+# for a top-level key and breaks parsing. Aligned to column 0 with its siblings.
+retryOnFailure: true
+maxRetries: 1
+
+jobLabel: [selenium-testng, win, v1, autosplit]
