@@ -1,0 +1,46 @@
+---
+# Final HyperExecute YAML - Task 1 (fixes) + Task 2 (env var) + Task 3 (retries).
+
+version: 0.1
+runson: win
+
+autosplit: true
+concurrency: 4
+
+runtime:
+  language: java
+  version: 11
+
+cacheKey: '{{ checksum "pom.xml" }}'
+cacheDirectories:
+  - .m2
+
+# Task 2: custom env vars. HyperExecute exports these into the runner environment,
+# so they're visible to pre-steps AND inherited by the mvn/test JVM (System.getenv).
+env:
+  TOKEN: anvdegtod-asdaasda0asda-asda
+  ENVIRONMENT: staging
+
+pre:
+  - mvn -Dmaven.repo.local=./.m2 dependency:resolve
+  # Task 2: print the env var BEFORE tests run.
+  # NOTE (verified against real job logs): HyperExecute runs its OWN $var templating
+  # on command strings (that's how $test is substituted in testRunnerCommand), so a
+  # bare "$ENVIRONMENT" in a pre-step is consumed by HyperExecute and prints empty.
+  # Reference the OS env var WITHOUT a '$' to dodge the templating -> `env | grep`.
+  - echo "===== ENVIRONMENT value in pre-steps below ====="
+  - env | grep ENVIRONMENT
+
+testDiscovery:
+  type: raw
+  mode: dynamic
+  command: grep 'test name' xml/testng_win.xml | awk '{print$2}' | sed 's/name=//g' | sed 's/\x3e//g'
+
+testRunnerCommand: mvn test `-Dplatname=win `-Dmaven.repo.local=./.m2 dependency:resolve `-DselectedTests=$test
+
+# Task 3: HyperExecute re-runs any test entity (task) that exits non-zero, up to
+# maxRetries times. Test_5 (Test5.java) fails on a hard assertion, so it gets retried.
+retryOnFailure: true
+maxRetries: 2
+
+jobLabel: [selenium-testng, win, v1, autosplit, env, retry]
